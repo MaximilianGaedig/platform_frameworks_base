@@ -245,7 +245,7 @@
          dozing).  This should be enabled if you have such services and expect apps to
          correctly use them when installed on your device.  Otherwise, keep this disabled
          so that applications can still use their own mechanisms. -->
-    <bool name="config_enableAutoPowerModes">false</bool>
+    <bool name="config_enableAutoPowerModes">true</bool>
 
     <!-- Whether (if true) this is a kind of device that can be moved around (eg. phone/laptop),
          or (if false) something for which movement is either not measurable or should not count
@@ -2037,12 +2037,19 @@
          it should be disabled in that locale's resources. -->
     <bool name="config_actionMenuItemAllCaps">true</bool>
 
+    <!-- Network derived time preferred protocol
+         Supports "ntp" or "https" only now -->
+    <string translatable="false" name="config_ntpMode">https</string>
     <!-- Remote server that can provide NTP responses. -->
     <string translatable="false" name="config_ntpServer">time.android.com</string>
+    <!-- Remote server that can provide HTTPS time responses -->
+    <string translatable="false" name="config_httpsTimeServer">https://time.grapheneos.org</string>
     <!-- Normal polling frequency in milliseconds -->
     <integer name="config_ntpPollingInterval">86400000</integer>
     <!-- Try-again polling interval in milliseconds, in case the network request failed -->
     <integer name="config_ntpPollingIntervalShorter">60000</integer>
+    <!-- Toggle to update timestamp using NITZ -->
+    <bool name="config_nitzTimeUpdate">false</bool>
     <!-- Number of times to try again with the shorter interval, before backing
          off until the normal polling interval. A value < 0 indicates infinite. -->
     <integer name="config_ntpRetry">3</integer>
@@ -2293,7 +2300,7 @@
     <bool name="config_syncstorageengine_masterSyncAutomatically">true</bool>
 
     <!--  Maximum number of supported users -->
-    <integer name="config_multiuserMaximumUsers">1</integer>
+    <integer name="config_multiuserMaximumUsers">16</integer>
 
     <!-- Maximum number of users we allow to be running at a time -->
     <integer name="config_multiuserMaxRunningUsers">3</integer>
@@ -2327,7 +2334,7 @@
     <integer name="config_userTypePackageWhitelistMode">13</integer> <!-- 1+4+8 -->
 
     <!-- Whether UI for multi user should be shown -->
-    <bool name="config_enableMultiUserUI">false</bool>
+    <bool name="config_enableMultiUserUI">true</bool>
 
     <!-- Whether the new Auto Selection Network UI should be shown -->
     <bool name="config_enableNewAutoSelectNetworkUI">false</bool>
@@ -2421,7 +2428,7 @@
     <bool name="config_useDevInputEventForAudioJack">false</bool>
 
     <!-- Whether safe headphone volume is enabled or not (country specific). -->
-    <bool name="config_safe_media_volume_enabled">true</bool>
+    <bool name="config_safe_media_volume_enabled">false</bool>
 
     <!-- Whether safe headphone volume warning dialog is disabled on Vol+ (operator specific). -->
     <bool name="config_safe_media_disable_on_volume_up">true</bool>
@@ -3233,7 +3240,7 @@
          0: 3 button mode (back, home, overview buttons)
          1: 2 button mode (back, home buttons + swipe up for overview)
          2: gestures only for back, home and overview -->
-    <integer name="config_navBarInteractionMode">0</integer>
+    <integer name="config_navBarInteractionMode">1</integer>
 
     <!-- Controls whether the nav bar can move from the bottom to the side in landscape.
          Only applies if the device display is not square. -->
@@ -3405,7 +3412,7 @@
     <integer name="config_keepPreloadsMinDays">7</integer>
 
     <!-- Flag indicating whether round icons should be parsed from the application manifest. -->
-    <bool name="config_useRoundIcon">false</bool>
+    <bool name="config_useRoundIcon">true</bool>
 
     <!-- Flag indicating whether the assist disclosure can be disabled using
          ASSIST_DISCLOSURE_ENABLED. -->
@@ -3502,7 +3509,7 @@
     <bool name="config_allow3rdPartyAppOnInternal">true</bool>
 
     <!-- Specifies the path that is used by AdaptiveIconDrawable class to crop launcher icons. -->
-    <string name="config_icon_mask" translatable="false">"M50,0L92,0C96.42,0 100,4.58 100 8L100,92C100, 96.42 96.42 100 92 100L8 100C4.58, 100 0 96.42 0 92L0 8 C 0 4.42 4.42 0 8 0L50 0Z"</string>
+    <string name="config_icon_mask" translatable="false">"M50 0C77.6 0 100 22.4 100 50C100 77.6 77.6 100 50 100C22.4 100 0 77.6 0 50C0 22.4 22.4 0 50 0Z"</string>
 
     <!-- The component name, flattened to a string, for the default accessibility service to be
          enabled by the accessibility shortcut. This service must be trusted, as it can be activated

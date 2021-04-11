@@ -804,6 +804,16 @@
     <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
     <string name="permgroupdesc_sensors">access sensor data about your vital signs</string>
 
+    <!-- Title of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
+    <string name="permgrouplab_otherSensors">Sensors</string>
+    <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
+    <string name="permgroupdesc_otherSensors">access sensor data about orientation, movement, etc.</string>
+
+    <!-- Title of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
+    <string name="permgrouplab_network">Network</string>
+    <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
+    <string name="permgroupdesc_network">access the network</string>
+
     <!-- Title for the capability of an accessibility service to retrieve window content. -->
     <string name="capability_title_canRetrieveWindowContent">Retrieve window content</string>
     <!-- Description for the capability of an accessibility service to retrieve window content. -->
@@ -1112,6 +1122,13 @@
     <!-- Description of the body sensors permission, listed so the user can decide whether to allow the application to access data from body sensors. [CHAR LIMIT=NONE] -->
     <string name="permdesc_bodySensors" product="default">Allows the app to access data from sensors
     that monitor your physical condition, such as your heart rate.</string>
+
+    <!-- Title of the sensors permission, listed so the user can decide whether to allow the application to access sensor data. [CHAR LIMIT=80] -->
+    <string name="permlab_otherSensors">access sensors (like the compass)
+    </string>
+    <!-- Description of the sensors permission, listed so the user can decide whether to allow the application to access data from sensors. [CHAR LIMIT=NONE] -->
+    <string name="permdesc_otherSensors" product="default">Allows the app to access data from sensors
+    monitoring orientation, movement, vibration (including low frequency sound) and environmental data</string>
 
     <!-- Title of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
     <string name="permlab_readCalendar">Read calendar events and details</string>
@@ -4835,10 +4852,10 @@
     <string name="confirm_battery_saver">OK</string>
 
     <!-- [CHAR_LIMIT=NONE] Battery saver: Feature description, with a "learn more" link. -->
-    <string name="battery_saver_description_with_learn_more">To extend battery life, Battery Saver:\n\n\u2022 Turns on Dark theme\n\u2022 Turns off or restricts background activity, some visual effects, and other features like \u201cHey Google\u201d\n\n<annotation id="url">Learn more</annotation></string>
+    <string name="battery_saver_description_with_learn_more">To extend battery life, Battery Saver:\n\n\u2022 Turns on Dark theme\n\u2022 Turns off or restricts background activity, some visual effects, and other features\n\n<annotation id="url">Learn more</annotation></string>
 
     <!-- [CHAR_LIMIT=NONE] Battery saver: Feature description, without a "learn more" link. -->
-    <string name="battery_saver_description">To extend battery life, Battery Saver:\n\n\u2022 Turns on Dark theme\n\u2022 Turns off or restricts background activity, some visual effects, and other features like \u201cHey Google\u201d</string>
+    <string name="battery_saver_description">To extend battery life, Battery Saver:\n\n\u2022 Turns on Dark theme\n\u2022 Turns off or restricts background activity, some visual effects, and other features</string>
 
     <!-- [CHAR_LIMIT=NONE] Data saver: Feature description -->
     <string name="data_saver_description">To help reduce data usage, Data Saver prevents some apps from sending or receiving data in the background. An app you’re currently using can access data, but may do so less frequently. This may mean, for example, that images don’t display until you tap them.</string>
