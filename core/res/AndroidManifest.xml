@@ -2304,11 +2304,11 @@
 
     <!-- @SystemApi Allows an application to manage embedded subscriptions (those on a eUICC)
          through EuiccManager APIs.
-         <p>Protection level: signature|privileged|development
+         <p>Protection level: signature|privileged
          @hide
     -->
     <permission android:name="android.permission.WRITE_EMBEDDED_SUBSCRIPTIONS"
-                android:protectionLevel="signature|privileged|development" />
+                android:protectionLevel="signature|privileged" />
 
     <!-- @SystemApi Must be required by an EuiccService to ensure that only the system can bind to
          it.
@@ -2437,7 +2437,7 @@
          user-targeted broadcasts.  This permission is not available to
          third party applications. -->
     <permission android:name="android.permission.INTERACT_ACROSS_USERS"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!-- @SystemApi Fuller form of {@link android.Manifest.permission#INTERACT_ACROSS_USERS}
          that removes restrictions on where broadcasts can be sent and allows other
@@ -2550,7 +2550,7 @@
          OOM adjustment scores.
          <p>Not for use by third-party applications. -->
     <permission android:name="android.permission.GET_PROCESS_STATE_AND_OOM_SCORE"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!-- Allows use of PendingIntent.getIntent().
          @hide -->
@@ -2576,11 +2576,11 @@
          The app can check whether it has this authorization by calling
          {@link android.provider.Settings#canDrawOverlays
          Settings.canDrawOverlays()}.
-         <p>Protection level: signature|preinstalled|appop|pre23|development -->
+         <p>Protection level: signature|preinstalled|appop -->
     <permission android:name="android.permission.SYSTEM_ALERT_WINDOW"
         android:label="@string/permlab_systemAlertWindow"
         android:description="@string/permdesc_systemAlertWindow"
-        android:protectionLevel="signature|preinstalled|appop|pre23|development" />
+        android:protectionLevel="signature|preinstalled|appop" />
 
     <!-- @deprecated Use {@link android.Manifest.permission#REQUEST_COMPANION_RUN_IN_BACKGROUND}
          @hide
@@ -2770,9 +2770,9 @@
 
     <!-- Allows an application to modify the current configuration, such
          as locale.
-         <p>Protection level: signature|privileged|development -->
+         <p>Protection level: signature|privileged -->
     <permission android:name="android.permission.CHANGE_CONFIGURATION"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!-- Allows an application to read or write the system settings.
 
@@ -2784,12 +2784,12 @@
         can check whether it has this authorization by calling {@link
         android.provider.Settings.System#canWrite Settings.System.canWrite()}.
 
-        <p>Protection level: signature|preinstalled|appop|pre23
+        <p>Protection level: signature|preinstalled|appop
     -->
     <permission android:name="android.permission.WRITE_SETTINGS"
         android:label="@string/permlab_writeSettings"
         android:description="@string/permdesc_writeSettings"
-        android:protectionLevel="signature|preinstalled|appop|pre23" />
+        android:protectionLevel="signature|preinstalled|appop" />
 
     <!-- Allows an application to modify the Google service map.
     <p>Not for use by third-party applications. -->
@@ -2825,7 +2825,7 @@
     <!-- Modify the global animation scaling factor.
     <p>Not for use by third-party applications. -->
     <permission android:name="android.permission.SET_ANIMATION_SCALE"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!-- @deprecated This functionality will be removed in the future; please do
          not use. Allow an application to make its activities persistent. -->
@@ -3020,40 +3020,40 @@
     <!-- Allows an application to read or write the secure system settings.
     <p>Not for use by third-party applications. -->
     <permission android:name="android.permission.WRITE_SECURE_SETTINGS"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!-- Allows an application to retrieve state dump information from system services.
     <p>Not for use by third-party applications. -->
     <permission android:name="android.permission.DUMP"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!-- Allows an application to read the low-level system log files.
     <p>Not for use by third-party applications, because
     Log entries can contain the user's private information. -->
     <permission android:name="android.permission.READ_LOGS"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!-- Configure an application for debugging.
     <p>Not for use by third-party applications. -->
     <permission android:name="android.permission.SET_DEBUG_APP"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!-- Allows an application to set the maximum number of (not needed)
          application processes that can be running.
          <p>Not for use by third-party applications. -->
     <permission android:name="android.permission.SET_PROCESS_LIMIT"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!-- Allows an application to control whether activities are immediately
          finished when put in the background.
          <p>Not for use by third-party applications. -->
     <permission android:name="android.permission.SET_ALWAYS_FINISH"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!-- Allow an application to request that a signal be sent to all persistent processes.
     <p>Not for use by third-party applications. -->
     <permission android:name="android.permission.SIGNAL_PERSISTENT_PROCESSES"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!-- @hide @SystemApi @TestApi
          Allow an application to approve incident and bug reports to be
@@ -3136,7 +3136,7 @@
     <!-- @SystemApi @hide Allows an application to collect application operation statistics.
          Not for use by third party apps. -->
     <permission android:name="android.permission.GET_APP_OPS_STATS"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!-- @SystemApi Allows an application to update application operation statistics. Not for
          use by third party apps.
@@ -3897,21 +3897,21 @@
          @SystemApi
          @TestApi -->
     <permission android:name="android.permission.BRIGHTNESS_SLIDER_USAGE"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!-- Allows an application to collect ambient light stats.
          <p>Not for use by third party applications.</p>
          @hide
          @SystemApi -->
     <permission android:name="android.permission.ACCESS_AMBIENT_LIGHT_STATS"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!-- Allows an application to modify the display brightness configuration
          @hide
          @SystemApi
          @TestApi -->
     <permission android:name="android.permission.CONFIGURE_DISPLAY_BRIGHTNESS"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!-- Allows an application to control the system's display brightness
          @hide -->
@@ -4023,7 +4023,7 @@
          instead of changing volume.</p>
          <p>Not for use by third-party applications</p> -->
     <permission android:name="android.permission.SET_VOLUME_KEY_LONG_PRESS_LISTENER"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!-- @SystemApi @hide Allows an application to set media key event listener.
          <p>When it's set, the application will receive the media key event before
@@ -4031,7 +4031,7 @@
          cannot get the event.</p>
          <p>Not for use by third-party applications</p> -->
     <permission android:name="android.permission.SET_MEDIA_KEY_LISTENER"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!-- @SystemApi Required to be able to disable the device (very dangerous!).
          <p>Not for use by third-party applications.
@@ -4136,9 +4136,9 @@
          statistics
          <p>Declaring the permission implies intention to use the API and the user of the
          device can grant permission through the Settings application.
-         <p>Protection level: signature|privileged|development|appop|retailDemo -->
+         <p>Protection level: signature|privileged|appop|retailDemo -->
     <permission android:name="android.permission.PACKAGE_USAGE_STATS"
-        android:protectionLevel="signature|privileged|development|appop|retailDemo" />
+        android:protectionLevel="signature|privileged|appop|retailDemo" />
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
 
     <!-- Allows a data loader to read a package's access logs. The access logs contain the
@@ -4178,9 +4178,9 @@
         android:protectionLevel="normal" />
 
     <!-- Allows an application to collect battery statistics
-         <p>Protection level: signature|privileged|development -->
+         <p>Protection level: signature|privileged -->
     <permission android:name="android.permission.BATTERY_STATS"
-        android:protectionLevel="signature|privileged|development" />
+        android:protectionLevel="signature|privileged" />
 
     <!--Allows an application to manage statscompanion.
     <p>Not for use by third-party applications.
@@ -4832,9 +4832,9 @@
                 android:protectionLevel="signature" />
 
     <!-- Allows an instant app to create foreground services.
-         <p>Protection level: signature|development|instant|appop -->
+         <p>Protection level: signature|instant|appop -->
     <permission android:name="android.permission.INSTANT_APP_FOREGROUND_SERVICE"
-        android:protectionLevel="signature|development|instant|appop" />
+        android:protectionLevel="signature|instant|appop" />
 
     <!-- Allows a regular application to use {@link android.app.Service#startForeground
          Service.startForeground}.
@@ -4867,7 +4867,7 @@
     <!-- @SystemApi Allows an application to turn on / off quiet mode.
          @hide -->
     <permission android:name="android.permission.MODIFY_QUIET_MODE"
-                android:protectionLevel="signature|privileged|wellbeing|development" />
+                android:protectionLevel="signature|privileged|wellbeing" />
 
     <!-- Allows internal management of the camera framework
          @hide -->
