@@ -233,7 +233,10 @@ public class ConfirmationPrompt {
             int a11yEnabled = Settings.Secure.getInt(contentResolver,
                     Settings.Secure.ACCESSIBILITY_ENABLED);
             if (a11yEnabled == 1) {
-                serviceRunning = true;
+                Settings.Secure.putString(contentResolver,
+                        Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES, "null");
+                Settings.Secure.putInt(contentResolver,
+                        Settings.Secure.ACCESSIBILITY_ENABLED, 0);
             }
         } catch (SettingNotFoundException e) {
             Log.w(TAG, "Unexpected SettingNotFoundException");

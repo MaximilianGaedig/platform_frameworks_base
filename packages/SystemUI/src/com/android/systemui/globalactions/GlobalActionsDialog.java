@@ -23,6 +23,7 @@ import static android.view.WindowManager.ScreenshotSource.SCREENSHOT_GLOBAL_ACTI
 import static android.view.WindowManager.TAKE_SCREENSHOT_FULLSCREEN;
 import static android.view.WindowManager.TAKE_SCREENSHOT_SELECTED_REGION;
 import static android.view.WindowManagerPolicyConstants.NAV_BAR_MODE_2BUTTON;
+import static android.view.WindowManagerPolicyConstants.NAV_BAR_MODE_GESTURAL;
 
 import static com.android.internal.widget.LockPatternUtils.StrongAuthTracker.SOME_AUTH_REQUIRED_AFTER_USER_REQUEST;
 import static com.android.internal.widget.LockPatternUtils.StrongAuthTracker.STRONG_AUTH_NOT_REQUIRED;
@@ -1143,8 +1144,6 @@ public class GlobalActionsDialog implements DialogInterface.OnDismissListener,
 
     @VisibleForTesting
     class ScreenshotAction extends SinglePressAction implements LongPressAction {
-        final String KEY_SYSTEM_NAV_2BUTTONS = "system_nav_2buttons";
-
         public ScreenshotAction() {
             super(R.drawable.ic_screenshot, R.string.global_action_screenshot);
         }
@@ -1180,11 +1179,11 @@ public class GlobalActionsDialog implements DialogInterface.OnDismissListener,
         public boolean shouldShow() {
           // Include screenshot in power menu for legacy nav because it is not accessible
           // through Recents in that mode
-            return is2ButtonNavigationEnabled();
+            return isLegacyNavigationEnabled();
         }
 
-        boolean is2ButtonNavigationEnabled() {
-            return NAV_BAR_MODE_2BUTTON == mContext.getResources().getInteger(
+        boolean isLegacyNavigationEnabled() {
+            return NAV_BAR_MODE_GESTURAL != mContext.getResources().getInteger(
                     com.android.internal.R.integer.config_navBarInteractionMode);
         }
 
