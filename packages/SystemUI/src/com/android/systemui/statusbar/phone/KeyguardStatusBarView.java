@@ -73,7 +73,6 @@ public class KeyguardStatusBarView extends RelativeLayout
 
     private final Rect mEmptyRect = new Rect(0, 0, 0, 0);
 
-    private boolean mShowPercentAvailable;
     private boolean mBatteryCharging;
     private boolean mKeyguardUserSwitcherShowing;
     private boolean mBatteryListening;
@@ -150,23 +149,12 @@ public class KeyguardStatusBarView extends RelativeLayout
         lp.setMarginStart(getResources().getDimensionPixelSize(
                 R.dimen.system_icons_super_container_margin_start));
         mSystemIconsContainer.setLayoutParams(lp);
-        mSystemIconsContainer.setPaddingRelative(mSystemIconsContainer.getPaddingStart(),
-                mSystemIconsContainer.getPaddingTop(),
-                getResources().getDimensionPixelSize(R.dimen.system_icons_keyguard_padding_end),
-                mSystemIconsContainer.getPaddingBottom());
 
         // Respect font size setting.
         mCarrierLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(
                         com.android.internal.R.dimen.text_size_small_material));
-        lp = (MarginLayoutParams) mCarrierLabel.getLayoutParams();
 
-        int marginStart = calculateMargin(
-                getResources().getDimensionPixelSize(R.dimen.keyguard_carrier_text_margin),
-                mPadding.first);
-        lp.setMarginStart(marginStart);
-
-        mCarrierLabel.setLayoutParams(lp);
         updateKeyguardStatusBarHeight();
     }
 
@@ -187,8 +175,6 @@ public class KeyguardStatusBarView extends RelativeLayout
                 R.dimen.system_icons_super_container_avatarless_margin_end);
         mCutoutSideNudge = getResources().getDimensionPixelSize(
                 R.dimen.display_cutout_margin_consumption);
-        mShowPercentAvailable = getContext().getResources().getBoolean(
-                com.android.internal.R.bool.config_battery_percentage_setting_available);
         mRoundedCornerPadding = res.getDimensionPixelSize(
                 R.dimen.rounded_corner_content_padding);
     }
@@ -212,7 +198,7 @@ public class KeyguardStatusBarView extends RelativeLayout
                 mMultiUserSwitch.setVisibility(View.GONE);
             }
         }
-        mBatteryView.setForceShowPercent(mBatteryCharging && mShowPercentAvailable);
+        mBatteryView.setForceShowPercent(mBatteryCharging);
     }
 
     private void updateSystemIconsLayoutParams() {
@@ -248,6 +234,7 @@ public class KeyguardStatusBarView extends RelativeLayout
         Pair<Integer, Integer> cornerCutoutMargins =
                 StatusBarWindowView.cornerCutoutMargins(mDisplayCutout, getDisplay());
         updatePadding(cornerCutoutMargins);
+        updateCarrierLabelParams();
         if (mDisplayCutout == null || cornerCutoutMargins != null) {
             return updateLayoutParamsNoCutout();
         } else {
@@ -262,6 +249,16 @@ public class KeyguardStatusBarView extends RelativeLayout
                 StatusBarWindowView.paddingNeededForCutoutAndRoundedCorner(
                         mDisplayCutout, cornerCutoutMargins, mRoundedCornerPadding);
         setPadding(mPadding.first, waterfallTop, mPadding.second, 0);
+    }
+
+    private void updateCarrierLabelParams() {
+        int marginStart = calculateMargin(
+                getResources().getDimensionPixelSize(R.dimen.keyguard_carrier_text_margin),
+                mPadding.first);
+        MarginLayoutParams lp = (MarginLayoutParams) mCarrierLabel.getLayoutParams();
+        lp.setMarginStart(marginStart);
+
+        mCarrierLabel.setLayoutParams(lp);
     }
 
     private boolean updateLayoutParamsNoCutout() {

@@ -168,6 +168,7 @@
     <protected-broadcast android:name="android.bluetooth.device.action.BATTERY_LEVEL_CHANGED" />
     <protected-broadcast android:name="android.bluetooth.devicepicker.action.LAUNCH" />
     <protected-broadcast android:name="android.bluetooth.devicepicker.action.DEVICE_SELECTED" />
+    <protected-broadcast android:name="org.codeaurora.intent.bluetooth.action.REMOTE_ISSUE_OCCURRED" />
     <protected-broadcast
         android:name="android.bluetooth.headset.profile.action.CONNECTION_STATE_CHANGED" />
     <protected-broadcast
@@ -178,6 +179,8 @@
         android:name="android.bluetooth.headset.action.HF_INDICATORS_VALUE_CHANGED" />
     <protected-broadcast
         android:name="android.bluetooth.headset.profile.action.ACTIVE_DEVICE_CHANGED" />
+    <protected-broadcast
+        android:name="android.bluetooth.headset.action.HF_TWSP_BATTERY_STATE_CHANGED" />
     <protected-broadcast
         android:name="android.bluetooth.headsetclient.profile.action.CONNECTION_STATE_CHANGED" />
     <protected-broadcast
@@ -667,6 +670,15 @@
     <!-- For tether entitlement recheck-->
     <protected-broadcast
         android:name="com.android.server.connectivity.tethering.PROVISIONING_RECHECK_ALARM" />
+
+    <!-- LineageOS additions -->
+
+    <!-- Used for long press power torch feature - automatic turn off on timeout -->
+    <protected-broadcast android:name="com.android.server.policy.PhoneWindowManager.ACTION_TORCH_OFF" />
+
+    <!-- Used to launch a common app (FlipFlap) for devices with flip cover. -->
+    <protected-broadcast android:name="lineageos.intent.action.LID_STATE_CHANGED" />
+
     <!-- ====================================================================== -->
     <!--                          RUNTIME PERMISSIONS                           -->
     <!-- ====================================================================== -->
@@ -5074,6 +5086,14 @@
     <!-- @hide Allows an application to create/destroy input consumer. -->
     <permission android:name="android.permission.INPUT_CONSUMER"
                 android:protectionLevel="signature" />
+
+    <!-- LineageOS additions -->
+
+    <!-- Allows an application to override the power key action
+         @hide <p>Not for use by third-party applications.
+    -->
+    <permission android:name="lineage.permission.PREVENT_POWER_KEY"
+                android:protectionLevel="signature|privileged" />
 
     <!-- Attribution for Country Detector. -->
     <attribution android:tag="CountryDetector" android:label="@string/country_detector"/>

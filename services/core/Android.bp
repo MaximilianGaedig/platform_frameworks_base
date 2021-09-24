@@ -1,11 +1,4 @@
 filegroup {
-    name: "services.core-sources-deviceconfig-interface",
-    srcs: [
-         "java/com/android/server/utils/DeviceConfigInterface.java"
-    ],
-}
-
-filegroup {
     name: "services.core-sources",
     srcs: ["java/**/*.java"],
     path: "java",
@@ -107,6 +100,7 @@ java_library_static {
         "app-compat-annotations",
         "framework-tethering.stubs.module_lib",
         "service-permission.stubs.system_server",
+        "org.lineageos.platform.internal",
     ],
 
     required: [
@@ -135,9 +129,12 @@ java_library_static {
         "android.hidl.manager-V1.2-java",
         "capture_state_listener-aidl-java",
         "dnsresolver_aidl_interface-java",
+        "motorola.hardware.health-V1.0-java",
         "netd_aidl_interfaces-platform-java",
+        "org.lineageos.platform.internal",
         "overlayable_policy_aidl-java",
         "SurfaceFlingerProperties",
+        "vendor.lineage.biometrics.fingerprint.inscreen-V1.0-java",
     ],
 }
 

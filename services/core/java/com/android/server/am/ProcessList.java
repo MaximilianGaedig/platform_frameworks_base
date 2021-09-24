@@ -1710,13 +1710,13 @@ public final class ProcessList {
                     ? Zygote.GWP_ASAN_LEVEL_ALWAYS
                     : Zygote.GWP_ASAN_LEVEL_NEVER;
         }
-        // If the app does not specify gwpAsanMode, the default behavior is lottery among the
+        // If the app does not specify gwpAsanMode, the default behavior is always enabled among the
         // system apps, and disabled for user apps, unless overwritten by the compat feature.
         if (mPlatformCompat.isChangeEnabled(GWP_ASAN, app.info)) {
             return Zygote.GWP_ASAN_LEVEL_ALWAYS;
         }
         if ((app.info.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
-            return Zygote.GWP_ASAN_LEVEL_LOTTERY;
+            return Zygote.GWP_ASAN_LEVEL_ALWAYS;
         }
         return Zygote.GWP_ASAN_LEVEL_NEVER;
     }

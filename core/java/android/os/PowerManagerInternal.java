@@ -108,6 +108,16 @@ public abstract class PowerManagerInternal {
     public abstract void setScreenBrightnessOverrideFromWindowManager(float brightness);
 
     /**
+     * Used by the window manager to override the button brightness based on the
+     * current foreground activity.
+     *
+     * This method must only be called by the window manager.
+     *
+     * @param brightness The overridden brightness, or Float.NaN to disable the override.
+     */
+    public abstract void setButtonBrightnessOverrideFromWindowManager(float brightness);
+
+    /**
      * Used by the window manager to override the user activity timeout based on the
      * current foreground activity.  It can only be used to make the timeout shorter
      * than usual, not longer.
@@ -323,4 +333,10 @@ public abstract class PowerManagerInternal {
 
     /** Allows power button to intercept a power key button press. */
     public abstract boolean interceptPowerKeyDown(KeyEvent event);
+
+    public abstract boolean setPowerSaveMode(boolean mode);
+
+    public abstract void setFeature(int featureId, int data);
+
+    public abstract int getFeature(int featureId);
 }

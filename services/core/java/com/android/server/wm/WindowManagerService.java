@@ -282,8 +282,8 @@ import com.android.server.policy.WindowManagerPolicy.ScreenOffListener;
 import com.android.server.power.ShutdownThread;
 import com.android.server.protolog.ProtoLogImpl;
 import com.android.server.protolog.common.ProtoLog;
-import com.android.server.utils.DeviceConfigInterface;
 import com.android.server.utils.PriorityDump;
+import com.android.server.wm.utils.DeviceConfigInterface;
 
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -3297,6 +3297,14 @@ public class WindowManagerService extends IWindowManager.Stub
         // Pass in the UI context, since ShutdownThread requires it (to show UI).
         ShutdownThread.reboot(ActivityThread.currentActivityThread().getSystemUiContext(),
                 PowerManager.SHUTDOWN_USER_REQUESTED, confirm);
+    }
+
+    // Called by window manager policy.  Not exposed externally.
+    @Override
+    public void reboot(boolean confirm, String reason) {
+        // Pass in the UI context, since ShutdownThread requires it (to show UI).
+        ShutdownThread.rebootCustom(ActivityThread.currentActivityThread().getSystemUiContext(),
+                reason, confirm);
     }
 
     // Called by window manager policy.  Not exposed externally.
@@ -6531,6 +6539,7 @@ public class WindowManagerService extends IWindowManager.Stub
         return mRoot.getDisplayContent(DEFAULT_DISPLAY);
     }
 
+    @Override
     public void onOverlayChanged() {
         synchronized (mGlobalLock) {
             mRoot.forAllDisplays(displayContent -> {

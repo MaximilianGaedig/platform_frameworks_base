@@ -282,9 +282,7 @@ public class PackageParser {
     public static final PackageParser.NewPermissionInfo NEW_PERMISSIONS[] =
         new PackageParser.NewPermissionInfo[] {
             new PackageParser.NewPermissionInfo(android.Manifest.permission.OTHER_SENSORS,
-                    android.os.Build.VERSION_CODES.CUR_DEVELOPMENT + 1, 0, null),
-            new PackageParser.NewPermissionInfo(android.Manifest.permission.REQUEST_INSTALL_PACKAGES,
-                    android.os.Build.VERSION_CODES.CUR_DEVELOPMENT + 1, 0, GmsInfo.PACKAGE_PLAY_STORE),
+                    android.os.Build.VERSION_CODES.CUR_DEVELOPMENT + 1, 0),
             new PackageParser.NewPermissionInfo(android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     android.os.Build.VERSION_CODES.DONUT, 0, null),
             new PackageParser.NewPermissionInfo(android.Manifest.permission.READ_PHONE_STATE,

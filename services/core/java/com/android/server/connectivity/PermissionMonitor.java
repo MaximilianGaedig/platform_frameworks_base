@@ -130,9 +130,8 @@ public class PermissionMonitor {
         String[] packages = mPackageManager.getPackagesForUid(uid);
         if (packages != null && packages.length > 0) {
             for (String name : packages) {
-                int userId = UserHandle.getUserId(uid);
-                final PackageInfo app = getPackageInfo(name, userId);
-                if (app != null && app.requestedPermissions != null && app.applicationInfo.uid == uid) {
+                final PackageInfo app = getPackageInfo(name);
+                if (app != null && app.requestedPermissions != null) {
                     permission |= getNetdPermissionMask(app.requestedPermissions,
                           app.requestedPermissionsFlags);
                 }
@@ -148,7 +147,7 @@ public class PermissionMonitor {
     private void enforceINTERNETAsRuntimePermission(@NonNull String packageName,
             @UserIdInt int userId) {
         // userId is _not_ uid
-        int uid = mPackageManagerInternal.getPackageUidInternal( packageName, GET_PERMISSIONS, userId);
+        int uid = mPackageManagerInternal.getPackageUid(packageName, 0, userId);
         sendPackagePermissionsForUid(uid, getPermissionForUid(uid));
     }
 

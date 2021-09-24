@@ -542,7 +542,6 @@ public class AudioService extends IAudioService.Stub
     // Devices for which the volume is fixed (volume is either max or muted)
     Set<Integer> mFixedVolumeDevices = new HashSet<>(Arrays.asList(
             AudioSystem.DEVICE_OUT_DGTL_DOCK_HEADSET,
-            AudioSystem.DEVICE_OUT_ANLG_DOCK_HEADSET,
             AudioSystem.DEVICE_OUT_HDMI_ARC,
             AudioSystem.DEVICE_OUT_SPDIF,
             AudioSystem.DEVICE_OUT_AUX_LINE));
@@ -575,6 +574,9 @@ public class AudioService extends IAudioService.Stub
         0.7f,    // Pre-scale for index 2
         0.85f,   // Pre-scale for index 3
     };
+
+    private boolean mLinkNotificationWithVolume;
+    private final boolean mVoiceCapable;
 
     private NotificationManager mNm;
     private AudioManagerInternal.RingerModeDelegate mRingerModeDelegate;
@@ -788,6 +790,9 @@ public class AudioService extends IAudioService.Stub
                         MAX_STREAM_VOLUME[AudioSystem.STREAM_SYSTEM];
         }
 
+        mVoiceCapable = context.getResources().getBoolean(
+                com.android.internal.R.bool.config_voice_capable);
+
         createAudioSystemThread();
 
         AudioSystem.setErrorCallback(mAudioSystemCallback);
@@ -812,6 +817,10 @@ public class AudioService extends IAudioService.Stub
         // the mcc is read by onConfigureSafeVolume()
         mSafeMediaVolumeIndex = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_safe_media_volume_index) * 10;
+
+        // read this in before readPersistedSettings() because updateStreamVolumeAlias needs it
+        mLinkNotificationWithVolume = Settings.Secure.getInt(mContext.getContentResolver(),
+                Settings.Secure.VOLUME_LINK_NOTIFICATION, 1) == 1;
 
         mUseFixedVolume = mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_useFixedVolume);
@@ -1499,6 +1508,15 @@ public class AudioService extends IAudioService.Stub
         mStreamVolumeAlias[AudioSystem.STREAM_ACCESSIBILITY] = a11yStreamAlias;
         mStreamVolumeAlias[AudioSystem.STREAM_ASSISTANT] = assistantStreamAlias;
 
+        if (mVoiceCapable) {
+            if (mLinkNotificationWithVolume) {
+                mStreamVolumeAlias[AudioSystem.STREAM_NOTIFICATION] = AudioSystem.STREAM_RING;
+            } else {
+                mStreamVolumeAlias[AudioSystem.STREAM_NOTIFICATION] =
+                        AudioSystem.STREAM_NOTIFICATION;
+            }
+        }
+
         if (updateVolumes && mStreamStates != null) {
             updateDefaultVolumes();
 
@@ -1765,6 +1783,9 @@ public class AudioService extends IAudioService.Stub
             updateAssistantUId(true);
             AudioSystem.setRttEnabled(mRttEnabled);
         }
+
+        mLinkNotificationWithVolume = Settings.Secure.getInt(cr,
+                Settings.Secure.VOLUME_LINK_NOTIFICATION, 1) == 1;
 
         mMuteAffectedStreams = System.getIntForUser(cr,
                 System.MUTE_STREAMS_AFFECTED, AudioSystem.DEFAULT_MUTE_STREAMS_AFFECTED,
@@ -4068,7 +4089,7 @@ public class AudioService extends IAudioService.Stub
     /** @see AudioManager#playSoundEffect(int, float) */
     public void playSoundEffectVolume(int effectType, float volume) {
         // do not try to play the sound effect if the system stream is muted
-        if (isStreamMutedByRingerOrZenMode(STREAM_SYSTEM)) {
+        if (isStreamMute(STREAM_SYSTEM)) {
             return;
         }
 
@@ -5209,6 +5230,27 @@ public class AudioService extends IAudioService.Stub
             throw new IllegalArgumentException("Illegal null device");
         }
         mDeviceBroker.postBluetoothA2dpDeviceConfigChange(device);
+    }
+
+    /**
+     * @see AudioManager#handleBluetoothA2dpActiveDeviceChange(BluetoothDevice, int, int,
+     *                                                        boolean, int)
+     */
+    public void handleBluetoothA2dpActiveDeviceChange(
+            BluetoothDevice device, int state, int profile, boolean suppressNoisyIntent,
+            int a2dpVolume) {
+        if (device == null) {
+                throw new IllegalArgumentException("Illegal null device");
+        }
+        if (profile != BluetoothProfile.A2DP && profile != BluetoothProfile.A2DP_SINK) {
+            throw new IllegalArgumentException("invalid profile " + profile);
+        }
+        if (state != BluetoothProfile.STATE_CONNECTED
+                && state != BluetoothProfile.STATE_DISCONNECTED) {
+            throw new IllegalArgumentException("Invalid state " + state);
+        }
+        mDeviceBroker.postBluetoothA2dpDeviceConfigChangeExt(device, state, profile,
+                suppressNoisyIntent, a2dpVolume);
     }
 
     private static final Set<Integer> DEVICE_MEDIA_UNMUTED_ON_PLUG_SET;
@@ -6540,6 +6582,8 @@ public class AudioService extends IAudioService.Stub
                     Settings.System.MASTER_MONO), false, this);
             mContentResolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.MASTER_BALANCE), false, this);
+            mContentResolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.VOLUME_LINK_NOTIFICATION), false, this);
 
             mEncodedSurroundMode = Settings.Global.getInt(
                     mContentResolver, Settings.Global.ENCODED_SURROUND_OUTPUT,
@@ -6577,6 +6621,14 @@ public class AudioService extends IAudioService.Stub
                 updateEncodedSurroundOutput();
                 sendEnabledSurroundFormats(mContentResolver, mSurroundModeChanged);
                 updateAssistantUId(false);
+
+                boolean linkNotificationWithVolume = Settings.Secure.getInt(mContentResolver,
+                        Settings.Secure.VOLUME_LINK_NOTIFICATION, 1) == 1;
+                if (linkNotificationWithVolume != mLinkNotificationWithVolume) {
+                    mLinkNotificationWithVolume = linkNotificationWithVolume;
+                    createStreamStates();
+                    updateStreamVolumeAlias(true, TAG);
+                }
             }
         }
 
@@ -6735,8 +6787,7 @@ public class AudioService extends IAudioService.Stub
                         UserManager.DISALLOW_RECORD_AUDIO, false, userId);
             } else if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
                 state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1);
-                if (state == BluetoothAdapter.STATE_OFF ||
-                        state == BluetoothAdapter.STATE_TURNING_OFF) {
+                if (state == BluetoothAdapter.STATE_OFF) {
                     mDeviceBroker.disconnectAllBluetoothProfiles();
                 }
             } else if (action.equals(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION) ||

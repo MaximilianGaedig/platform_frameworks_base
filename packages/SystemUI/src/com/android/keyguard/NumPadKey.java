@@ -33,6 +33,8 @@ import android.widget.TextView;
 import com.android.internal.widget.LockPatternUtils;
 import com.android.systemui.R;
 
+import lineageos.providers.LineageSettings;
+
 public class NumPadKey extends ViewGroup {
     // list of "ABC", etc per digit, starting with '0'
     static String sKlondike[];
@@ -105,17 +107,18 @@ public class NumPadKey extends ViewGroup {
         mKlondikeText = (TextView) findViewById(R.id.klondike_text);
 
         updateText();
-        a = context.obtainStyledAttributes(attrs, android.R.styleable.View);
-        if (!a.hasValueOrEmpty(android.R.styleable.View_background)) {
-            setBackground(mContext.getDrawable(R.drawable.ripple_drawable_pin));
-        }
-        a.recycle();
+        setBackground(mContext.getDrawable(R.drawable.ripple_drawable));
         setContentDescription(mDigitText.getText().toString());
     }
 
+    public void setDigit(int digit) {
+        mDigit = digit;
+        updateText();
+    }
+
     private void updateText() {
-        boolean scramblePin = Settings.Secure. getIntForUser(mContext.getContentResolver(),
-                Settings.Secure.SCRAMBLE_PIN_LAYOUT, 0, ActivityManager.getCurrentUser()) == 1;
+        boolean scramblePin = (LineageSettings.System.getInt(getContext().getContentResolver(),
+                LineageSettings.System.LOCKSCREEN_PIN_SCRAMBLE_LAYOUT, 0) == 1);
         if (mDigit >= 0) {
             mDigitText.setText(Integer.toString(mDigit));
             if (sKlondike == null) {
@@ -131,11 +134,6 @@ public class NumPadKey extends ViewGroup {
                 }
             }
         }
-    }
-
-    public void setDigit(int digit) {
-        mDigit = digit;
-        updateText();
     }
 
     @Override
